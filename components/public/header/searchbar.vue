@@ -2,26 +2,32 @@
   <div class="search-panel">
     <el-row class="m-header-searchbar">
       <el-col
-      :span="2"
+      :span="4"
       class="left">
         <img src="//s0.meituan.net/bs/fe-web-meituan/fa5f0f0/img/logo.png" alt="美团">
       </el-col>
       <el-col
-      :span="18"
+      :span="16"
       class="center">
         <div class="wrapper">
-          <el-input placeholder="搜索商家或地点"></el-input>
-          <button class="el-button el-button-primary"><i class="el-icon-search"></i></button>
-          <!-- <dl class="hotPlace">
+          <el-input
+          v-model="search"
+          placeholder="搜索商家或地点"></el-input>
+          <button class="el-button el-button--primary"><i class="el-icon-search"></i></button>
+          <dl
+          v-if="isHotPlace"
+          class="hotPlace">
             <dt>热门搜索</dt>
             <dd>火锅</dd>
             <dd>臭鳜鱼</dd>
             <dd>罍街</dd>
             <dd>黄山烧饼</dd>
-          </dl> -->
-          <!-- <dl class="searchList">
+          </dl>
+          <dl
+          v-if="isSearchList"
+          class="searchList">
             <dd>火锅</dd>
-          </dl> -->
+          </dl>
         </div>
         <p class="suggest">
           <a href="">包公园</a>
@@ -73,10 +79,23 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      isFocus: true,
+      search: ''
+    }
+  },
+  computed: {
+    isHotPlace () {
+      return this.isFocus && !this.search
+    },
+    isSearchList () {
+      return this.isFocus && this.search
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-  @import "@/assets/css/public/header.scss";
+
 </style>
