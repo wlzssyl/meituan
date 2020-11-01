@@ -12,7 +12,9 @@
         <div class="wrapper">
           <el-input
           v-model="search"
-          placeholder="搜索商家或地点"></el-input>
+          placeholder="搜索商家或地点"
+          @focus="focus"
+          @blur="blur"></el-input>
           <button class="el-button el-button--primary"><i class="el-icon-search"></i></button>
           <dl
           v-if="isHotPlace"
@@ -81,7 +83,7 @@
 export default {
   data () {
     return {
-      isFocus: true,
+      isFocus: false,
       search: ''
     }
   },
@@ -91,6 +93,17 @@ export default {
     },
     isSearchList () {
       return this.isFocus && this.search
+    }
+  },
+  methods: {
+    focus () {
+      this.isFocus = true
+    },
+    blur () {
+      const self = this
+      setTimeout(() => {
+        self.isFocus = false
+      }, 180)
     }
   }
 }
