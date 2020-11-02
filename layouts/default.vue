@@ -1,13 +1,13 @@
 <template>
   <el-container class="layout-default">
-  <el-header>
-    <my-header></my-header>
-  </el-header>
-  <el-main>
-        <Nuxt />
-  </el-main>
-  <el-footer>Footer</el-footer>
-</el-container>
+    <el-header>
+      <my-header />
+    </el-header>
+    <el-main>
+      <Nuxt />
+    </el-main>
+    <el-footer>Footer</el-footer>
+  </el-container>
 </template>
 
 <script>

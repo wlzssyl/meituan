@@ -14,21 +14,23 @@
           v-model="search"
           placeholder="搜索商家或地点"
           @focus="focus"
-          @blur="blur"></el-input>
+          @blur="blur"
+          @input="input"></el-input>
           <button class="el-button el-button--primary"><i class="el-icon-search"></i></button>
           <dl
           v-if="isHotPlace"
           class="hotPlace">
             <dt>热门搜索</dt>
-            <dd>火锅</dd>
-            <dd>臭鳜鱼</dd>
-            <dd>罍街</dd>
-            <dd>黄山烧饼</dd>
+            <dd
+            v-for="(value, index) in hotPlace"
+            :key="index">{{ value }}</dd>
           </dl>
           <dl
           v-if="isSearchList"
           class="searchList">
-            <dd>火锅</dd>
+            <dd
+            v-for="(value, index) in searchList"
+            :key="index">{{ value }}</dd>
           </dl>
         </div>
         <p class="suggest">
@@ -84,7 +86,9 @@ export default {
   data () {
     return {
       isFocus: false,
-      search: ''
+      search: '',
+      hotPlace: ['罍街', '庐州太太', '臭鳜鱼', '黄山烧饼'],
+      searchList: ['冒菜', '火锅']
     }
   },
   computed: {
@@ -104,6 +108,9 @@ export default {
       setTimeout(() => {
         self.isFocus = false
       }, 180)
+    },
+    input () {
+      console.log('input事件')
     }
   }
 }
