@@ -7,7 +7,8 @@
         :key="index"
       >
         <i :class="value.type"/>
-        <span class="arrow">{{ value.name }}</span>
+        {{ value.name }}
+        <span class="arrow"></span>
       </dd>
     </dl>
   </div>
@@ -21,6 +22,10 @@ export default {
         {
           type: 'food',
           name: '美食'
+        },
+        {
+          type: 'takeout',
+          name: '外卖'
         }
       ]
     }
