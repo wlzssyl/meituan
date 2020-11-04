@@ -1,19 +1,26 @@
 <template>
   <div class="m-menu">
-    <dl class="nav">
+    <dl
+      class="nav"
+      @mouseleave="leave"
+    >
       <dt>全部分类</dt>
       <dd
         v-for="(value, index) in menu"
         :key="index"
+        @mouseenter="enter"
       >
         <i :class="value.type"/>
         {{ value.name }}
         <span class="arrow"></span>
       </dd>
     </dl>
-    <div class="detail">
+    <div
+      class="detail"
+      v-if="kind"
+    >
       <template
-        v-for="(item, index) in curdetail"
+        v-for="(item, index) in curdetail.child"
       >
         <h4 :key="index">{{ item.title }}</h4>
         <span
@@ -66,7 +73,20 @@ export default {
   },
   computed: {
     curdetail () {
-      return []
+      return this.menu.filter((item) => {
+        return item.type === this.kind
+      })[0]
+    }
+  },
+  methods: {
+    leave () {
+      const self = this
+      setTimeout(() => {
+        self.kind = ''
+      }, 150)
+    },
+    enter (event) {
+      this.kind = event.target.querySelector('i').className
     }
   }
 }
