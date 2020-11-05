@@ -18,6 +18,8 @@
     <div
       class="detail"
       v-if="kind"
+      @mouseenter="detailEnter"
+      @mouseleave="detailLeave"
     >
       <template
         v-for="(item, index) in curdetail.child"
@@ -81,12 +83,18 @@ export default {
   methods: {
     leave () {
       const self = this
-      setTimeout(() => {
+      self._timer = setTimeout(() => {
         self.kind = ''
       }, 150)
     },
     enter (event) {
       this.kind = event.target.querySelector('i').className
+    },
+    detailEnter () {
+      clearTimeout(this._timer)
+    },
+    detailLeave () {
+      this.kind = ''
     }
   }
 }
