@@ -23,6 +23,24 @@
         kind="travel"
         keyword="旅游">品质出游</dd>
     </dl>
+    <ul class="ibody">
+      <li
+        v-for="item in cur"
+        :key="item.title">
+        <el-card
+          :body-style="{ padding: '0px' }"
+          shadow="never">
+          <img
+            :src="item.img"
+            class="image">
+          <ul class="cbody">
+            <li class="title">{{ item.title }}</li>
+            <li class="pos"><span>{{ item.pos }}</span></li>
+            <li class="price">￥<em>{{ item.price }}</em><span>/起</span></li>
+          </ul>
+        </el-card>
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -38,6 +56,11 @@ export default {
         movie: [],
         travel: []
       }
+    }
+  },
+  computed: {
+    cur () {
+      return this.list[this.kind]
     }
   }
 }
