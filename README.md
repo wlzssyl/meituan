@@ -1,5 +1,5 @@
 # mt_app
-
+    // "dev": "nuxt",
 ## Build Setup
 
 ```bash

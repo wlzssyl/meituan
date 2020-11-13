@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'mt_app',
@@ -45,5 +45,8 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     transpile: [/^element-ui/]
-  }
+  },
+
+  //server
+  dev: process.env.NODE_ENV !== 'production'
 }
