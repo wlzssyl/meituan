@@ -1,3 +1,4 @@
+import { ElDropdownMenu } from 'element-ui/types/dropdown-menu'
 import passport from 'koa-passport'
 import LocalStrategy from 'passport-local'
 import UserModel from '../../dbs/models/users'
@@ -17,3 +18,15 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     return done(null, false, '用户不存在')
   }
 }))
+
+/*通过session验证*/
+//序列化
+passport.serializeUser((user, done) => {
+  return done(null, user)
+})
+//反序列化
+passport.deserializeUser((user, done) => {
+  return done(null, user)
+})
+
+export default passport
