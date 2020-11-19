@@ -45,4 +45,47 @@ router.post('/signup', async (ctx) => {
       msg: '请填写验证码'
     }
   }
+
+  /**监测用户名是否重复 */
+  let user = await User.find({
+    username
+  })
+  if (user.length) {
+    ctx.body = {
+      code: -1,
+      msg: '该用户名已被注册'
+    }
+    return
+  }
+
+  /**以上监测都通过了，将注册用户信息写入数据库 */
+  let nuser = await User.create({
+    username,
+    password,
+    email
+  })
+  if (nuser) {
+    //如果写入成功了就自动登录，同时抛出信息
+    let res = await axios.post('/users/signin', {
+      username,
+      password
+    })
+    if (res.data && res.data.code === 0) {
+      cyx.body = {
+        code: 0,
+        msg: '注册成功',
+        user: res.data.user
+      }
+    } else {
+      ctx.body = {
+        code: -1,
+        msg: 'error(可能是网络连接出现问题)'
+      }
+    }
+  } else {
+    ctx.body = {
+      code: -1,
+      msg: '注册失败(可能是未能写入库)'
+    }
+  }
 })
