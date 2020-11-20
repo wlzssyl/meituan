@@ -117,4 +117,29 @@ router.post('/signin', async (ctx, next) => {
   }) (ctx, next)
 })
 
-/**验证码验证************************** */
+/**验证码验证接口************************** */
+router.post('/verify', async (ctx, next) => {
+  let username = ctx.request.body.username
+  const saveExpire = await Store.hget(`nodename:${username}`, 'expire')
+  if (saveExpire && Date().getTime() - saveExpire < 0) {
+    ctx.body = {
+      code: -1,
+      msg: '验证请求过于频繁，请一分钟后再试'
+    }
+    return false
+  }
+  //smtp服务
+  let transporter = nodeMailer.createTransport({
+    host:Email.smtp.host,
+    port: 587,
+    secure: false,
+    auth: {
+      user: Email.smtp.user,
+      pass: Email.smtp.pass
+    }
+  })
+  //对外发送信息
+  let ko = {
+    
+  }
+})
