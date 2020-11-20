@@ -13,6 +13,7 @@ let router = new Router({
 
 let Store = new Redis().client
 
+/**注册接口********************************* */
 router.post('/signup', async (ctx) => {
   const {
     username,
@@ -89,3 +90,31 @@ router.post('/signup', async (ctx) => {
     }
   }
 })
+
+/**登录接口************************************ */
+router.post('/signin', async (ctx, next) => {
+  return Passport.authenticate('local', (err, user, info, status) => {
+    if (err) {
+      ctx.body = {
+        code: -1,
+        msg: err
+      }
+    } else {
+      if (user) {
+        ctx.body = {
+          code: 0,
+          msg: '登陆成功',
+          user
+        }
+        return ctx.login(user)
+      } else {
+        ctx.body = {
+          code: 1,
+          msg: info
+        }
+      }
+    }
+  }) (ctx, next)
+})
+
+/**验证码验证************************** */
