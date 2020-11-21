@@ -114,7 +114,7 @@ router.post('/signin', async (ctx, next) => {
         }
       }
     }
-  }) (ctx, next)
+  })(ctx, next)
 })
 
 /**验证码验证接口************************** */
@@ -128,9 +128,9 @@ router.post('/verify', async (ctx, next) => {
     }
     return false
   }
-  //smtp服务
+  //创建smtp服务
   let transporter = nodeMailer.createTransport({
-    host:Email.smtp.host,
+    host: Email.smtp.host,
     port: 587,
     secure: false,
     auth: {
@@ -140,6 +140,30 @@ router.post('/verify', async (ctx, next) => {
   })
   //对外发送信息
   let ko = {
-    
+    code: Email.smtp.code(),
+    expire: Email.smtp.expire(),
+    //对那个email发送验证邮件
+    email: ctx.request.body.email,
+    user: ctx.request.body.username
+  }
+  //发送邮件的内容
+  let mailOptions = {
+    from: `"认证邮件" <${Email.smtp.user}>`,
+    to: ko.email,
+    subject: 'meituan账号注册验证码',//邮件主题
+    html: `您在meituan注册账号的验证码为${ko.code}`//邮件内容
+  }
+  //发送邮件请求
+  await transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.error()
+    } else {
+      //将该用户名对应的验证码，有效时间，邮箱地址存到redis中
+      Store.hmset(`nodemail:${ko.user}`, 'code', ko.code, 'expire', ko.expire, 'email', ko.email)
+    }
+  })
+  ctx.body = {
+    code: 0,
+    msg: '验证码已发送，有效时间一分钟。'
   }
 })
