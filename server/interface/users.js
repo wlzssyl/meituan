@@ -167,3 +167,20 @@ router.post('/verify', async (ctx, next) => {
     msg: '验证码已发送，有效时间一分钟。'
   }
 })
+
+//退出登录接口
+router.get('/exit', async (ctx, next) => {
+  await ctx.logout()
+  //检查是否是登录状态
+  if (!ctx.isAuthenticated()) {
+    ctx.body = {
+      code: 0
+    }
+  } else {
+    ctx.body = {
+      code: -1
+    }
+  }
+})
+
+//获取用户名接口
