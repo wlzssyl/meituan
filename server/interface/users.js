@@ -184,3 +184,19 @@ router.get('/exit', async (ctx, next) => {
 })
 
 //获取用户名接口
+router.get('/getUser', async (ctx) => {
+  if(ctx.isAuthenticated()){
+    const {username, email} = ctx.session.Passport.user
+    ctx.body = {
+      user: username,
+      email: email
+    }
+  }else{
+    ctx.body = {
+      user: '',
+      email: ''
+    }
+  }
+})
+
+export default router
